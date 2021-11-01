@@ -19,26 +19,27 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         await client.connect();
         const database = client.db("tourism_agencies");
         const tourPackage = database.collection("travel");
+        const orderPackage = database.collection("order");
 
-        app.get('/travel', async(req, res)=>{
+        app.get('/travels', async(req, res)=>{
             const cursor = tourPackage.find({});
             const travel= await cursor.toArray();
             res.send(travel)
         })
      
          // load service details use get api
-        app.get('/travel/:id', async(req, res)=>{
+        app.get('/travels/:id', async(req, res)=>{
             const id = req.params.id ;
             console.log('hitting data', id)
-            const query = {_Id:ObjectId(id)}
+            const query = {_id:ObjectId(id)}
             const details = await tourPackage.findOne(query);
             res.send(details)
         })
 
         app.post('/travel', async(req, res)=>{
-            const travels = req.body; 
-            console.log('hitting data', travels)
-            const result = await tourPackage.insertOne(travels);
+            const travel = req.body; 
+            console.log('hitting data', travel)
+            const result = await orderPackage.insertOne(travel);
             console.log(result)
             res.json(result)
         })
