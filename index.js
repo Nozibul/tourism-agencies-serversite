@@ -36,15 +36,8 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             res.send(details)
         })
       
-        // delete api
-        app.delete('/travels/:id', async(req, res)=>{
-            const Id = req.params.id;
-            const query ={_id:ObjectId(Id)}
-            const result= await tourPackage.deleteOne(query)
-            res.json(result);
-        })
-
-        app.post('/travel', async(req, res)=>{
+         
+        app.post('/orders', async(req, res)=>{
             const travel = req.body; 
             console.log('hitting data', travel)
             const result = await orderPackage.insertOne(travel);
