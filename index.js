@@ -55,13 +55,21 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
     //    })
 
 
-
+    // manage all orders    
        app.get('/orders', async(req, res)=>{
         const cursor = orderPackage.find({});
         const travel= await cursor.toArray();
         res.send(travel)
     })
 
+
+    // delete all manage all order
+    app.delete('/orders/:id', async(req, res)=>{
+        const id = req.params.id;
+        const query = { _id: ObjectId(id)};
+        const result = await orderPackage.deleteOne(query);
+        res.json(result)
+    }) 
 
      }
      finally{
