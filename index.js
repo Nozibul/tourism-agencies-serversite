@@ -44,34 +44,41 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             res.json(result)
         })
 
-       //send data from server
-    //    app.get('/orders', async(req, res)=>{
-    //        const email = req.query;
-    //        const query = {email: email};
-    //        const cursor = orderPackage.find(query);
-    //        const result = await cursor.toArray()
-    //        res.send(result)
+       //send specific email data from server
+       app.get('/order', async(req, res)=>{
+           const email = req.query.email;
+           const query = {email: email};
+           const cursor = orderPackage.find(query);
+           const result = await cursor.toArray()
+           res.send(result)
       
-    //    })
+       })
 
 
-    // manage all orders    
+    // manage all orders send from server   
        app.get('/orders', async(req, res)=>{
-        const cursor = orderPackage.find({});
-        const travel= await cursor.toArray();
-        res.send(travel)
-    })
+            const cursor = orderPackage.find({});
+            const travel= await cursor.toArray();
+            res.send(travel)
+        })
 
 
-    // delete all manage all order
+    // delete all manage order
     app.delete('/orders/:id', async(req, res)=>{
         const id = req.params.id;
-        console.log(id)
         const query = {_id:ObjectId(id)};
         const result = await orderPackage.deleteOne(query);
-        console.log(result)
         res.json(result)
     }) 
+
+
+    // delete specific user order
+    app.delete('/orderDelete/:id', async(req, res)=>{
+        const id = req.params.id;
+        const query = {_id:ObjectId(id)};
+        const orderDelete = await orderPackage.deleteOne(query)
+        res.json(orderDelete) 
+    })
 
      }
      finally{
