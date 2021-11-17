@@ -26,6 +26,7 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
             const travel= await cursor.toArray();
             res.send(travel)
         })
+      
      
          // load service details use get api
         app.get('/travels/:id', async(req, res)=>{
@@ -44,14 +45,22 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         })
 
        //send data from server
-       app.get('orders', async(req, res)=>{
-           const email = req.query.email;
+       app.get('/orders', async(req, res)=>{
+           const email = req.query;
            const query = {email: email};
            const cursor = orderPackage.find(query);
-           const order = await cursor.toArray()
-           res.json(order)
+           const result = await cursor.toArray()
+           res.send(result)
       
        })
+
+
+
+    //    app.get('/orders', async(req, res)=>{
+    //     const cursor = orderPackage.find({});
+    //     const travel= await cursor.toArray();
+    //     res.send(travel)
+    // })
 
 
      }
