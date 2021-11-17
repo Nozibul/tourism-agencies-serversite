@@ -30,22 +30,28 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
          // load service details use get api
         app.get('/travels/:id', async(req, res)=>{
             const id = req.params.id ;
-            console.log('hitting data', id)
             const query = {_id:ObjectId(id)}
             const details = await tourPackage.findOne(query);
             res.send(details)
         })
+
       
-         
+        //  order received from database in use post api
         app.post('/orders', async(req, res)=>{
-            const travel = req.body; 
-            console.log('hitting data', travel)
-            const result = await orderPackage.insertOne(travel);
-            console.log(result)
+            const orders = req.body; 
+            const result = await orderPackage.insertOne(orders);
             res.json(result)
         })
 
-
+       //send data from server
+       app.get('orders', async(req, res)=>{
+           const email = req.query.email;
+           const query = {email: email};
+           const cursor = orderPackage.find(query);
+           const order = await cursor.toArray()
+           res.json(order)
+      
+       })
 
 
      }
