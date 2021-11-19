@@ -87,6 +87,22 @@ const client = new MongoClient(uri, { useNewUrlParser: true, useUnifiedTopology:
         res.json(orderDelete) 
     })
 
+   
+    // update order
+    app.put('/updateOrder/:id', async(req,res)=>{
+        const id = req.params.id
+        const query = {_id:ObjectId(id)}
+        const orderUpdate = {
+            $set:{
+                status:"approved",
+            },
+        }
+        const result = await orderPackage.updateOne(query, orderUpdate)
+        res.json(result)
+    })
+
+
+
      }
      finally{
         // await client.close();
